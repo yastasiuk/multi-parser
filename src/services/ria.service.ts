@@ -25,7 +25,7 @@ export class RiaService {
   }
 
   saveCars = async (cars: CarEntity[]) => {
-    return this.dbService.insertMany('cars', cars);
+    return this.dbService.insertMany('car', cars);
   }
 
   saveCar = async (car: CarEntity) => {

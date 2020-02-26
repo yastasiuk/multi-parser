@@ -28,6 +28,6 @@ export class MasterController {
   private getPagesToParse = async () => {
     // it's async we don't want aka race conditions
     this.carsParsed += this.parseSession;
-    return await this.dbService.find('cars', {}, this.parseSession, this.carsParsed - this.parseSession);
+    return await this.dbService.find('car', {}, this.parseSession, this.carsParsed - this.parseSession);
   }
 }
