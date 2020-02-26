@@ -1,6 +1,5 @@
 import express, { Request, Response, Router } from 'express';
 import { DBService } from "../services/db.service";
-const router = express.Router();
 
 export class MasterController {
   private carsParsed = 11000;
@@ -12,12 +11,12 @@ export class MasterController {
   
   private initializeRouter () {
     this.router = express.Router();
-    router.get('/get-tasks', async (req: Request, res: Response) => {
+    this.router.get('/get-tasks', async (req: Request, res: Response) => {
       const carIds = await this.getPagesToParse();
       res.json(carIds);
     });
 
-    router.get('/health', (_, res: Response) => {
+    this.router.get('/health', (_, res: Response) => {
       res.status(200).end();
     });
   }

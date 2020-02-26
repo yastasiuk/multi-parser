@@ -2,7 +2,6 @@ import express, { Response, Router } from 'express';
 import axios from 'axios';
 import { RiaController } from './ria.controller';
 import { serverConfig } from '../config/server'; // meh
-const router = express.Router();
 
 export class SlaveController {
   private router: Router;
@@ -12,7 +11,7 @@ export class SlaveController {
 
   private initializeRouter() {
     this.router = express.Router();
-    router.get('/health', (_, res: Response) => {
+    this.router.get('/health', (_, res: Response) => {
       res.status(200).end();
     });
   }
