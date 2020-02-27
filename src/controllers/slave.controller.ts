@@ -21,12 +21,14 @@ export class SlaveController {
   }
 
   proceedTasks = async () => {
+    let i = 0
     while (true) {
       const carIds = await this.getTasks();
-      console.log('carIds', carIds);
       if (carIds.length === 0) {
         break
       }
+      i++;
+      console.log("Epoch", i);
       await this.riaController.getCarsData(carIds);
       await this.waitSeconds(60);
     }

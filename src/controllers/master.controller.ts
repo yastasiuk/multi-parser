@@ -12,6 +12,7 @@ export class MasterController {
   private initializeRouter () {
     this.router = express.Router();
     this.router.get('/get-tasks', async (req: Request, res: Response) => {
+      console.log(`Incoming connection for tasks.. Cars parsed: ${this.carsParsed}`);
       const carIds = await this.getPagesToParse();
       res.json(carIds);
     });
@@ -28,6 +29,6 @@ export class MasterController {
   private getPagesToParse = async () => {
     // it's async we don't want aka race conditions
     this.carsParsed += this.parseSession;
-    return await this.dbService.find('car', {}, this.parseSession, this.carsParsed - this.parseSession);
+    return await this.dbService.find('search-cars', {}, this.parseSession, this.carsParsed - this.parseSession);
   }
 }
