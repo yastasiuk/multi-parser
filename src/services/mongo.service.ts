@@ -64,9 +64,12 @@ export class MongoService implements DBService {
     })
   }
 
-  find = async (collectionName: string, query: object = {}, limit: number = 20, skip: number = 0) => {
+  find = async (collectionName: string, query: object = {}, limit: number = 20, skip: number = 0, options?: object) => {
     const collection = this.db.collection(collectionName);
-    return await collection.find(query).limit(limit).skip(skip).toArray();
+    if (limit === -1) {
+      return await collection.find(query, options).skip(skip).toArray();  
+    }
+    return await collection.find(query, options).limit(limit).skip(skip).toArray();
   }
 
   closeConnection = () => {

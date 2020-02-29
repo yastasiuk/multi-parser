@@ -11,5 +11,5 @@ export interface DBService {
   insertOne: (collectionName: string, entity: object) => Promise<void>;
   insertMany: (collectionName: string, entities: Array<object>) => Promise<void>;
   closeConnection: () => void;
-  find: (collectionName: string, query: object, limit: number, skip: number) => Promise<any[]>;
+  find: (collectionName: string, query: object, limit: number, skip: number, options?: object) => Promise<any[]>;
 }
