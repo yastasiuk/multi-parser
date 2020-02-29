@@ -27,7 +27,7 @@ function arr_diff(a1: any[], a2: any[]) {
 export class MasterController {
   private carsParsed = 0;
   private parseSession = 1000;
-  private leftCarsIds: string[] = [];
+  private leftCarsIds: Array<{id: string; type: 'new' | 'used'}> = [];
   private router: Router;
   constructor(private dbService: DBService) {
     this.initializeRouter();
@@ -55,13 +55,13 @@ export class MasterController {
     const allCars = await (await this.dbService.find('search-cars', {}, -1, 0)).map(v => v.id);
     const parsedCars = await (await this.dbService.find('car', {}, -1, 0, { "autoData.autoId": 1 })).map(v => v.autoData.autoId);
     console.log(`Allcars: ${allCars.length}; ParsedCars: ${parsedCars.length}`)
-    this.leftCarsIds = arr_diff(allCars, parsedCars);
+    this.leftCarsIds = arr_diff(allCars, parsedCars).map(v => ({ type: 'used', id: v }));
     console.log(`Leftcars: ${this.leftCarsIds.length}`)
   }
 
-  private getPagesToParse = async () => {
+  private getPagesToParse = () => {
     // it's async we don't want aka race conditions
     this.carsParsed += this.parseSession;
-    return this.leftCarsIds.slice(this.carsParsed - this.parseSession, this.parseSession);
+    return this.leftCarsIds.slice(this.carsParsed - this.parseSession, this.carsParsed);
   }
 }
