@@ -25,7 +25,9 @@ export class RiaService {
   }
 
   reloadPage = async () => {
-    await this.browserService.reloadPage();
+    if (this.browserService.isActive()) {
+      await this.browserService.reloadPage();
+    }
   }
 
   saveCars = async (cars: CarEntity[]) => {
