@@ -9,6 +9,7 @@ export class RiaController {
   constructor(private riaService: RiaService) {}
 
   getCarsData = async (cars: Array<{ id: string; type: vehicleType; }>) => {
+    await this.riaService.reloadPage();
     for (let i = 0; i < cars.length; i++) {
       if (i % 100 === 0) {
         console.log(`Parting car #${i}`);

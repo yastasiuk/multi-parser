@@ -43,6 +43,10 @@ export class BrowserService {
     }
   }
 
+  reloadPage = async () => {
+    await this.currentPage.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+  }
+
   isActive = () => {
     return !!this.currentPage;
   }

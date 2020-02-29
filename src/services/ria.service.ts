@@ -24,6 +24,10 @@ export class RiaService {
     });
   }
 
+  reloadPage = async () => {
+    await this.browserService.reloadPage();
+  }
+
   saveCars = async (cars: CarEntity[]) => {
     return this.dbService.insertMany('car', cars);
   }
