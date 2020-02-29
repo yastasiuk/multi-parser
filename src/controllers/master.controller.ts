@@ -31,14 +31,14 @@ export class MasterController {
   private router: Router;
   constructor(private dbService: DBService) {
     this.initializeRouter();
+    this.getLeftCars();
   }
   
-  private initializeRouter = async () => {
-    this.leftCarsIds = await this.getLeftCars();
+  private initializeRouter = () => {
     this.router = express.Router();
-    this.router.get('/get-tasks', async (req: Request, res: Response) => {
+    this.router.get('/get-tasks', (req: Request, res: Response) => {
       console.log(`Incoming connection for tasks.. Cars parsed: ${this.carsParsed}`);
-      const carIds = await this.getPagesToParse();
+      const carIds = this.getPagesToParse();
       res.json(carIds);
     });
 
@@ -54,7 +54,9 @@ export class MasterController {
   private getLeftCars = async () => {
     const allCars = await (await this.dbService.find('search-cars', {}, -1, 0)).map(v => v.id);
     const parsedCars = await (await this.dbService.find('car', {}, -1, 0, { "autoData.autoId": 1 })).map(v => v.autoData.autoId);
-    return arr_diff(allCars, parsedCars);
+    console.log(`Allcars: ${allCars.length}; ParsedCars: ${parsedCars.length}`)
+    this.leftCarsIds = arr_diff(allCars, parsedCars);
+    console.log(`Leftcars: ${this.leftCarsIds.length}`)
   }
 
   private getPagesToParse = async () => {
